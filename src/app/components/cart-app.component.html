@@ -1,15 +1,29 @@
-<h2>Carro de compras!</h2>
-<div class="row">
-    @for(product of products; track $index){
-        <div class="col-4 my-2">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{product.name}}</h5>
-                    <p class="card-text">{{product.description}}</p>
-                    <p class="card-text">{{product.price}}</p>
-                    <button class="btn btn-primary">Agregar al carro</button>
-                </div>
-            </div>
+  <navbar [itemsCart]="itemsCart" (openEventEmmiter)="openCart()"/>
+  <div class="container">
+    <h3 class="text text-title">Catalogo de productos App</h3>
+    <div class="row">
+        <div [className]="showCart ? 'col-md-9' : 'col-md-12'">
+            <catalog [products]="products" (productAddedToCart)="onAddCart($event)"/>
         </div>
-    }
-</div>
+        @if(showCart){
+            <div class="col-md-3">
+                <button class="btn btn-secondary btn-sm float-end" (click)="openCart()">close X</button>
+                @if (itemsCart.length > 0) {
+                    <cart 
+                    [itemsCart]="itemsCart" 
+                    [total]="total"
+                    (idProductRemovedFromCart)="onDeleteCart($event)"
+                    />
+                }
+                @else {
+                    <p class="alert alert-warning">No hay productos en el carrito</p>
+                }
+            </div>
+        }
+    
+    </div>
+    
+  </div>
+
+
+
